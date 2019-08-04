@@ -38,14 +38,16 @@ public class TeamToXlsConverter extends AbstractHttpMessageConverter<Team> {
 
     @Override
     protected void writeInternal(final Team team, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        final Workbook workbook = new HSSFWorkbook();
-        final Sheet sheet = workbook.createSheet();
-        int rowNo = 0;
-        for (final TeamMember member : team.getMembers()) {
-            final Row row = sheet.createRow(rowNo++);
-            row.createCell(0).setCellValue(member.getName());
+        try (final Workbook workbook = new HSSFWorkbook()) {
+            final Sheet sheet = workbook.createSheet();
+            int rowNo = 0;
+            for (final TeamMember member : team.getMembers()) {
+                final Row row = sheet.createRow(rowNo++);
+                row.createCell(0)
+                   .setCellValue(member.getName());
+            }
+            workbook.write(outputMessage.getBody());
         }
-        workbook.write(outputMessage.getBody());
     }
 
 }

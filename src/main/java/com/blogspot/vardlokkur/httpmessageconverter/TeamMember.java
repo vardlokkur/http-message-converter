@@ -1,13 +1,12 @@
 package com.blogspot.vardlokkur.httpmessageconverter;
 
+import javax.annotation.concurrent.Immutable;
 import java.time.LocalDate;
-import java.time.Period;
-
-import static java.time.LocalDate.now;
 
 /**
  * @author Warlock
  */
+@Immutable
 public final class TeamMember {
 
     private final LocalDate dateOfBirth;
@@ -17,11 +16,6 @@ public final class TeamMember {
     public TeamMember(final String name, final LocalDate dateOfBirth) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public int getAge() {
-        return Period.between(dateOfBirth, now().plusDays(1))
-                     .getYears();
     }
 
     public LocalDate getDateOfBirth() {
